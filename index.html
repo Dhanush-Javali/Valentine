@@ -1,250 +1,354 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Love-App❤️</title>
+<head>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-    <style>
-      body {
-        margin: 0;
-        font-family: sans-serif;
-        background: #111;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
+<title>For My Love ❤️</title>
 
-      .phone {
-        width: 360px;
-        height: 640px;
-        background: black;
-        border-radius: 40px;
-        padding: 12px;
-      }
+<style>
+*{box-sizing:border-box;}
 
-      .screen {
-        width: 100%;
-        height: 100%;
-        border-radius: 30px;
-        overflow: hidden;
-        background: linear-gradient(180deg, #ff5f9e, #ffc1da);
-        position: relative;
-        color: white;
-        text-align: center;
-      }
+body{
+  margin:0;
+  font-family:Georgia,serif;
+  background:linear-gradient(135deg,#0f0c29,#1c1c1c,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100dvh;
+  overflow:hidden;
+  color:white;
+}
 
-      .page {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: none;
-        padding: 25px;
-        box-sizing: border-box;
-      }
+/* PHONE */
+.phone{
+  width:min(420px,100vw);
+  height:min(860px,100dvh);
+  background:black;
+  border-radius:30px;
+  padding:10px;
+  box-shadow:0 0 40px rgba(255,215,0,.25);
+}
 
-      .active {
-        display: block;
-      }
+.screen{
+  width:100%;
+  height:100%;
+  border-radius:24px;
+  background:linear-gradient(180deg,#111,#1a1a1a);
+  position:relative;
+  overflow:hidden;
+}
 
-      button {
-        background: white;
-        color: #ff4e8a;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        font-size: 16px;
-      }
+/* PAGES */
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  padding:20px;
+}
+.active{display:flex;}
 
-      input {
-        padding: 12px;
-        border: none;
-        border-radius: 20px;
-        text-align: center;
-        font-size: 18px;
-      }
+.center{
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  gap:14px;
+}
 
-      /* CARD */
-      .card {
-        width: 85%;
-        height: 60%;
-        border-radius: 20px;
-        position: absolute;
-        left: 50%;
-        top: 55%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        touch-action: none;
-        overflow: hidden;
-      }
+/* TEXT */
+h2{font-size:clamp(20px,5vw,28px);}
+h3{font-size:clamp(18px,4.5vw,24px);}
+p{font-size:clamp(14px,4vw,18px);}
 
-      .card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+/* BUTTON */
+button{
+  background:linear-gradient(45deg,#caa64b,#ffd700);
+  border:none;
+  padding:12px 22px;
+  border-radius:25px;
+  font-size:clamp(14px,4vw,18px);
+  color:black;
+}
 
-      /* MESSAGE OVERLAY */
-      .msg {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        padding: 15px;
-        font-size: 18px;
-        text-align: center;
-      }
+/* CARD */
+.cardWrap{
+  display:flex;
+  justify-content:center;
+  width:100%;
+}
 
-      /* HEARTS */
-      .heart {
-        position: absolute;
-        bottom: -10px;
-        font-size: 22px;
-        animation: float 5s linear infinite;
-      }
-      @keyframes float {
-        to {
-          transform: translateY(-700px);
-          opacity: 0;
-        }
-      }
-    </style>
-  </head>
+.card{
+  width:90%;
+  max-width:340px;
+  height:50vh;
+  max-height:420px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 0 25px rgba(255,215,0,.3);
+  background:#000;
+}
 
-  <body>
-    <div class="phone">
-      <div class="screen">
-        <audio id="music" loop>
-          <source src="music.mp3" type="audio/mpeg" />
-        </audio>
+/* BLURRED BACKGROUND */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--bg) center/cover;
+  filter:blur(20px) brightness(.45);
+  transform:scale(1.2);
+  z-index:0;
+}
 
-        <!-- LOCK -->
-        <div class="page active" id="lock">
-          <h1>🔒 Private Love App</h1>
-          <p>Enter our Password 💕</p>
-          <input id="pass" placeholder="Code" />
-          <br /><br />
-          <button onclick="unlock()">Unlock ❤️</button>
-        </div>
+/* MAIN IMAGE — FULL FACE VISIBLE */
+.card img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
 
-        <!-- SWIPE PAGE -->
-        <div class="page" id="swipePage">
-          <h1>Our Memories 📸</h1>
+/* ARROW INDICATOR */
+.swipeArrow{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  font-size:22px;
+  opacity:.9;
+  z-index:2;
+  animation:arrowMove 1.4s infinite;
+}
+@keyframes arrowMove{
+  0%{transform:translateX(0);}
+  50%{transform:translateX(8px);}
+  100%{transform:translateX(0);}
+}
 
-          <div class="card" id="card">
-            <img id="cardImg" src="pic1.jpeg" />
-            <img id="cardImg" src="pic2.jpeg" />
-            <img id="cardImg" src="pic3.jpeg" />
-            <img id="cardImg" src="pic4.jpeg" />
-            <img id="cardImg" src="pic5.HEIC" />
+/* LETTER */
+.letter{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background:linear-gradient(to top,#2b1e16,#000);
+  padding:12px;
+  transform:translateY(100%);
+  transition:.5s;
+  z-index:2;
+}
+.card.show .letter{transform:translateY(0);}
 
-            <div class="msg" id="msg"></div>
-          </div>
-        </div>
+.title{color:#ffd700;font-size:16px;}
+.msg{font-size:14px;}
 
-        <!-- FINAL -->
-        <div class="page" id="final">
-          <h1>Surprise 🎁</h1>
-          <p>
-            I love you forever ❤️<br /><br />
-            Will you be mine forever? 💍
-          </p>
-          <button onclick="hearts()">YES 💖</button>
-        </div>
-      </div>
-    </div>
+/* FINAL */
+.choiceArea{
+  position:relative;
+  width:220px;
+  height:140px;
+}
 
-    <script>
-      /* PASSWORD */
-      const anniversary = "1208";
+/* PETALS */
+.petal{
+  position:fixed;
+  top:-20px;
+  font-size:18px;
+  animation:fall linear forwards;
+  pointer-events:none;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);}
+}
 
-      /* PHOTOS */
-      const photos = [
-        "pic1.jpeg",
-        "pic2.jpeg",
-        "pic3.jpeg",
-        "pic4.jpeg",
-        "pic5.HEIC",
-      ];
+/* STARS */
+.star{
+  position:fixed;
+  font-size:10px;
+  opacity:.7;
+  animation:twinkle 2s infinite alternate;
+  pointer-events:none;
+}
+@keyframes twinkle{
+  from{opacity:.2}
+  to{opacity:1}
+}
 
-      /* MESSAGES */
-      const messages = [
-        "✨ Our first selfie together — the start of my favorite love story ❤️",
-        "😊 Your cute smile makes my worst days better 💕",
-        "🌍 Every trip with you becomes my best memory 😘",
-        "😂 Even your funny moments make me love you more 💖",
-        "💍 This moment… I knew I want you forever ❤️",
-      ];
+/* FIREWORK */
+.fire{
+  position:fixed;
+  font-size:22px;
+  animation:boom 1.2s linear forwards;
+}
+@keyframes boom{
+  0%{transform:scale(.3);opacity:1;}
+  100%{transform:scale(2.5);opacity:0;}
+}
+</style>
+</head>
 
-      let index = 0;
+<body>
 
-      /* SET FIRST MESSAGE */
-      document.getElementById("msg").innerHTML = messages[0];
+<div class="phone">
+<div class="screen">
 
-      function unlock() {
-        let v = document.getElementById("pass").value;
-        if (v === anniversary) {
-          show("swipePage");
-          document.getElementById("music").play();
-        } else {
-          alert("Wrong date 😝");
-        }
-      }
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
 
-      function show(id) {
-        document
-          .querySelectorAll(".page")
-          .forEach((p) => p.classList.remove("active"));
-        document.getElementById(id).classList.add("active");
-      }
+<!-- INTRO -->
+<div class="page active center" id="intro">
+<h2>A Love Story Begins… ✨</h2>
+<button onclick="start()">Enter</button>
+</div>
 
-      /* SWIPE */
-      const card = document.getElementById("card");
-      let startX = 0;
+<!-- LOCK -->
+<div class="page center" id="lock">
+<h2>For Her Only 🔒</h2>
+<input id="pass" placeholder="Code"
+style="padding:12px;border-radius:20px;border:none;text-align:center;width:70%;">
+<button onclick="unlock()">Unlock ❤️</button>
+</div>
 
-      card.addEventListener("touchstart", (e) => {
-        startX = e.touches[0].clientX;
-      });
+<!-- SWIPE -->
+<div class="page center" id="swipePage">
+<h3>Our Story 💖</h3>
 
-      card.addEventListener("touchend", (e) => {
-        let endX = e.changedTouches[0].clientX;
-        if (Math.abs(endX - startX) > 50) {
-          swipe();
-        }
-      });
+<div class="cardWrap">
+<div class="card" id="card">
 
-      function swipe() {
-        card.style.transition = "0.3s";
-        card.style.transform = "translate(500px,-50%) rotate(15deg)";
+<img id="cardImg" src="pic1.jpeg">
+<div class="swipeArrow">➜</div>
 
-        setTimeout(() => {
-          index++;
+<div class="letter">
+<div class="title" id="title"></div>
+<div class="msg" id="msg"></div>
+</div>
 
-          if (index >= photos.length) {
-            show("final");
-            return;
-          }
+</div>
+</div>
+</div>
 
-          document.getElementById("cardImg").src = photos[index];
-          document.getElementById("msg").innerHTML = messages[index];
+<!-- FINAL -->
+<div class="page center" id="final">
+<h2 style="color:#ffd700;">Will You Be Mine Forever? 💍</h2>
 
-          card.style.transition = "none";
-          card.style.transform = "translate(-50%,-50%)";
-        }, 300);
-      }
+<div class="choiceArea">
+<button onclick="yes()">YES 💖</button>
 
-      /* HEARTS */
-      function hearts() {
-        for (let i = 0; i < 30; i++) {
-          let h = document.createElement("div");
-          h.className = "heart";
-          h.innerHTML = "💖";
-          h.style.left = Math.random() * 100 + "%";
-          document.querySelector(".screen").appendChild(h);
-          setTimeout(() => h.remove(), 5000);
-        }
-      }
-    </script>
-  </body>
+<button id="noBtn"
+style="position:absolute;left:120px;top:60px;"
+onmouseover="moveNo()"
+ontouchstart="moveNo()">
+NO 😝
+</button>
+</div>
+
+<p id="response"></p>
+</div>
+
+</div>
+</div>
+
+<script>
+const anniversary="1208";
+
+const photos=["pic1.jpeg","pic2.jpeg","pic3.jpeg","pic4.jpeg","pic5.jpeg"];
+const titles=["The Beginning","Your Smile","Our Journey","Our Laughter","My Forever"];
+const messages=[
+"The day I met you, my heart found its home ❤️",
+"Your smile is my favorite view 💕",
+"Every journey is better with you 😘",
+"Your laughter is my music 💖",
+"I want forever with you ❤️"
+];
+
+let index=0;
+
+title.textContent=titles[0];
+msg.textContent=messages[0];
+card.style.setProperty("--bg",`url(${photos[0]})`);
+
+function start(){show("lock");music.play();}
+function unlock(){(pass.value===anniversary)?show("swipePage"):alert("Wrong code 😝");}
+
+function show(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* LETTER */
+card.onclick=()=>card.classList.toggle("show");
+
+/* SWIPE */
+let startX=0;
+card.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+card.addEventListener("touchend",e=>{
+if(Math.abs(e.changedTouches[0].clientX-startX)>50) swipe();
+});
+
+function swipe(){
+card.style.transform="translateX(350px)";
+card.style.transition=".3s";
+
+setTimeout(()=>{
+index++;
+if(index>=photos.length){show("final");return;}
+
+cardImg.src=photos[index];
+card.style.setProperty("--bg",`url(${photos[index]})`);
+title.textContent=titles[index];
+msg.textContent=messages[index];
+card.classList.remove("show");
+
+card.style.transition="none";
+card.style.transform="translateX(0)";
+},300);
+}
+
+/* YES */
+function yes(){
+response.textContent="She said YES 💖";
+for(let i=0;i<30;i++){
+let f=document.createElement("div");
+f.className="fire";
+f.innerHTML="🎆";
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*100+"%";
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1200);
+}
+}
+
+/* RUNAWAY NO */
+function moveNo(){
+noBtn.style.left=Math.random()*140+"px";
+noBtn.style.top=Math.random()*80+"px";
+}
+
+/* PETALS */
+setInterval(()=>{
+let p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌹";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(4+Math.random()*3)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),7000);
+},1200);
+
+/* STARS */
+setInterval(()=>{
+let s=document.createElement("div");
+s.className="star";
+s.innerHTML="✦";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),2500);
+},600);
+</script>
+
+</body>
 </html>
